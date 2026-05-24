@@ -171,13 +171,13 @@ export default function SettingsScreen() {
       const userId = await AsyncStorage.getItem('user_id');
       let dbProfile: any = null;
       if (userId) {
-        const { data } = await supabase
+        const { data: profileData } = await supabase
           .from('profiles')
           .select('notif_new_enabled, notif_new_time, notif_overdue_enabled, notif_overdue_time, notif_check_enabled, notif_check_time, notif_reward_enabled, telegram_chat_id, selected_bot')
           .eq('id', userId)
           .single();
-        dbProfile = data;
-        if (data?.telegram_chat_id) setBotConnected(true);
+        dbProfile = profileData;
+        if (profileData?.telegram_chat_id) setBotConnected(true);
       }
 
       for (const k of keys) {
@@ -203,13 +203,16 @@ export default function SettingsScreen() {
       setTimes(newTimes);
 
       const bot = await AsyncStorage.getItem('settings_bot');
-      if (bot) {
+      if (bot && dbProfile?.telegram_chat_id) {
         setSelectedBot(bot);
-      } else if (dbProfile?.selected_bot) {
+      } else if (dbProfile?.selected_bot && dbProfile?.telegram_chat_id) {
         const botNames: Record<string, string> = { sir_blesk: 'Сэр Блеск', tyler: 'Тайлер' };
         const botName = botNames[dbProfile.selected_bot] ?? dbProfile.selected_bot;
         setSelectedBot(botName);
         await AsyncStorage.setItem('settings_bot', botName);
+      } else {
+        setSelectedBot('');
+        await AsyncStorage.removeItem('settings_bot');
       }
     };
 

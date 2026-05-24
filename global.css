@@ -9,20 +9,3 @@ input, textarea {
   [dir="auto"] {
     touch-action: manipulation !important;
   }
-  /* Жестко качаем шрифты иконок с серверов, минуя баги сборщика Cloudflare */
-@font-face {
-    font-family: 'Ionicons';
-    src: url('https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf') format('truetype');
-  }
-  @font-face {
-    font-family: 'Feather';
-    src: url('https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/Feather.ttf') format('truetype');
-  }
-  @font-face {
-    font-family: 'FontAwesome';
-    src: url('https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf') format('truetype');
-  }
-  @font-face {
-    font-family: 'Material Icons';
-    src: url('https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf') format('truetype');
-  }

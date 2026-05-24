@@ -12,7 +12,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { supabase } from '../lib/supabase';
@@ -98,112 +97,110 @@ export default function LoginScreen() {
         style={{ flex: 1 }} 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView 
-            contentContainerStyle={styles.scrollContent} 
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            bounces={false}
-          >
-            <View style={styles.inner}>
+        <ScrollView 
+          contentContainerStyle={styles.scrollContent} 
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          bounces={false}
+        >
+          <View style={styles.inner}>
 
-              {/* Логотип */}
-              <View style={styles.logoWrap}>
-                <Text style={styles.logoTitle}>HomeApp</Text>
-                <Text style={styles.logoSub}>
-                  {isJoining ? 'Присоединись к дому' : 'Создай своё пространство'}
-                </Text>
-              </View>
+            {/* Логотип */}
+            <View style={styles.logoWrap}>
+              <Text style={styles.logoTitle}>HomeApp</Text>
+              <Text style={styles.logoSub}>
+                {isJoining ? 'Присоединись к дому' : 'Создай своё пространство'}
+              </Text>
+            </View>
 
-              {/* Карточка */}
-              <View style={styles.card}>
+            {/* Карточка */}
+            <View style={styles.card}>
 
-                {/* Имя */}
-                <Text style={styles.label}>Твоё имя</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Имя"
-                  placeholderTextColor="#B0B0B0"
-                  value={name}
-                  onChangeText={setName}
-                  autoCapitalize="words"
-                />
+              {/* Имя */}
+              <Text style={styles.label}>Твоё имя</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Имя"
+                placeholderTextColor="#B0B0B0"
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="words"
+              />
 
-                {/* Код дома (Идет вторым, если мы присоединяемся) */}
-                {isJoining && (
-                  <>
-                    <Text style={styles.label}>Код дома</Text>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Спроси у создателя"
-                      placeholderTextColor="#B0B0B0"
-                      value={room}
-                      onChangeText={setRoom}
-                      autoCapitalize="characters"
-                    />
-                  </>
-                )}
+              {/* Код дома (Идет вторым, если мы присоединяемся) */}
+              {isJoining && (
+                <>
+                  <Text style={styles.label}>Код дома</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Спроси у создателя"
+                    placeholderTextColor="#B0B0B0"
+                    value={room}
+                    onChangeText={setRoom}
+                    autoCapitalize="characters"
+                  />
+                </>
+              )}
 
-                {/* Выбор пола */}
-                <Text style={styles.label}>Твой пол</Text>
-                <View style={styles.genderRow}>
-                  <TouchableOpacity
-                    style={[styles.genderBtn, gender === 'male' && styles.genderBtnActive]}
-                    onPress={() => {
-                      Keyboard.dismiss();
-                      setGender('male');
-                    }}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={[styles.genderText, gender === 'male' && styles.genderTextActive]}>Мужской</Text>
-                  </TouchableOpacity>
-                  
-                  <TouchableOpacity
-                    style={[styles.genderBtn, gender === 'female' && styles.genderBtnActive]}
-                    onPress={() => {
-                      Keyboard.dismiss();
-                      setGender('female');
-                    }}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={[styles.genderText, gender === 'female' && styles.genderTextActive]}>Женский</Text>
-                  </TouchableOpacity>
-                </View>
-
-                {/* Ошибка */}
-                {error ? (
-                  <View style={styles.errorBox}>
-                    <Text style={styles.errorText}>{error}</Text>
-                  </View>
-                ) : null}
-
-                {/* Главная Кнопка */}
-                <TouchableOpacity style={styles.button} onPress={handleLogin} activeOpacity={0.8} disabled={loading}>
-                  {loading
-                    ? <ActivityIndicator color="#FFF" />
-                    : <Text style={styles.buttonText}>{isJoining ? 'Войти в дом' : 'Создать дом'}</Text>
-                  }
+              {/* Выбор пола */}
+              <Text style={styles.label}>Твой пол</Text>
+              <View style={styles.genderRow}>
+                <TouchableOpacity
+                  style={[styles.genderBtn, gender === 'male' && styles.genderBtnActive]}
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    setGender('male');
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.genderText, gender === 'male' && styles.genderTextActive]}>Мужской</Text>
                 </TouchableOpacity>
-
+                
+                <TouchableOpacity
+                  style={[styles.genderBtn, gender === 'female' && styles.genderBtnActive]}
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    setGender('female');
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.genderText, gender === 'female' && styles.genderTextActive]}>Женский</Text>
+                </TouchableOpacity>
               </View>
 
-              {/* Переключатель режимов */}
-              <TouchableOpacity 
-                onPress={() => { 
-                  Keyboard.dismiss();
-                  setIsJoining(!isJoining); 
-                  setError(''); 
-                }} 
-                style={styles.switchButton}
-              >
-                <Text style={styles.switchText}>
-                  {isJoining ? 'Создать новый дом' : 'Уже есть код дома? Войти'}
-                </Text>
+              {/* Ошибка */}
+              {error ? (
+                <View style={styles.errorBox}>
+                  <Text style={styles.errorText}>{error}</Text>
+                </View>
+              ) : null}
+
+              {/* Главная Кнопка */}
+              <TouchableOpacity style={styles.button} onPress={handleLogin} activeOpacity={0.8} disabled={loading}>
+                {loading
+                  ? <ActivityIndicator color="#FFF" />
+                  : <Text style={styles.buttonText}>{isJoining ? 'Войти в дом' : 'Создать дом'}</Text>
+                }
               </TouchableOpacity>
 
             </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
+
+            {/* Переключатель режимов */}
+            <TouchableOpacity 
+              onPress={() => { 
+                Keyboard.dismiss();
+                setIsJoining(!isJoining); 
+                setError(''); 
+              }} 
+              style={styles.switchButton}
+            >
+              <Text style={styles.switchText}>
+                {isJoining ? 'Создать новый дом' : 'Уже есть код дома? Войти'}
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

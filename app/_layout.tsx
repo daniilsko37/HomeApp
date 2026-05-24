@@ -10,12 +10,14 @@ export default function RootLayout() {
   useEffect(() => {
     async function loadFonts() {
       try {
-        // Заставляем сам движок Expo скачать шрифты из интернета, минуя локальную сборку
+        // Качаем вообще все паки иконок напрямую через интернет
         await Font.loadAsync({
           Ionicons: 'https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf',
           Feather: 'https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/Feather.ttf',
           FontAwesome: 'https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf',
           MaterialIcons: 'https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf',
+          MaterialCommunityIcons: 'https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf',
+          AntDesign: 'https://unpkg.com/@expo/vector-icons@14.0.2/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf',
         });
         setFontsLoaded(true);
       } catch (e) {
@@ -27,7 +29,7 @@ export default function RootLayout() {
     loadFonts();
   }, []);
 
-  // Ждем загрузки шрифтов
+  // Пока всё не скачается — интерфейс не показываем, чтобы не было квадратов
   if (!fontsLoaded) {
     return null;
   }
@@ -37,11 +39,16 @@ export default function RootLayout() {
       <Stack 
         screenOptions={{ 
           headerShown: false,
+          // 🪄 ГЛОБАЛЬНАЯ МАГИЯ: включаем нативные свайпы для ВСЕХ экранов приложения
           gestureEnabled: true, 
+          // Задаем красивую нативную анимацию перехода по умолчанию
           animation: 'slide_from_right' 
         }}
       >
+        {/* Главный экран с табами (с него свайпать назад некуда) */}
         <Stack.Screen name="(tabs)" />
+        
+        {/* Экраны, которые открываются поверх табов и поддерживают свайп назад */}
         <Stack.Screen name="statistics" />
         <Stack.Screen name="shop" />
       </Stack>

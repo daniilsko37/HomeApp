@@ -1,4 +1,11 @@
+/* Принудительно разрешаем выделение текста и фокус для iOS Safari */
 input, textarea {
-    -webkit-user-select: auto !important;
-    user-select: auto !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    -webkit-touch-callout: default !important;
+  }
+  
+  /* Фикс для движка React Native Web */
+  [dir="auto"] {
+    touch-action: manipulation !important;
   }
